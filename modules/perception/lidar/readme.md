@@ -8,9 +8,9 @@ app目录中主要实现两个功能，分别为 lidar_obstacle_detection 和 li
 此lib共有继承自 BaseLidarObstacleDetection 类，声明并实现了检测程序的初始化函数以及数据处理接口。
 
 在源文件中，Init 方法以及 Process 方法都有两套函数签名，分别用于不同的调用情况。
-TODO: 两套函数签名分别对应的调用情况说明
+第一套签名对应利用配置参数特别配置的初始化和数据处理过程，第二套签名对应 Pipeline 的配置和调用过程。
 
-### Init
+#### Init
 初始化函数有两种实现方法，第一种是输入 LidarObstacleDetectionInitOptions 的对象引用进行初始化操作，另一种是输入 pipeline_config 的对象引用进行初始化操作。
 
 其初始化的内容包括：
@@ -21,7 +21,7 @@ TODO: 两套函数签名分别对应的调用情况说明
 TODO: 场景管理器的作用？
 TODO: 地图管理器的作用？
 
-### Process
+#### Process
 数据处理函数有三种实现方法，可以分为两类。一类是只输入点云数据，调用 pipeline::InnerProcess 函数处理它，另一类是输入点云数据的同时输入选项信息，调用 ProcessCommon 函数处理它。
 
 其数据处理的内容包括：
@@ -32,6 +32,25 @@ TODO: 地图管理器的作用？
 5. 使用目标滤波器过滤障碍物目标（如果使能）。
 
 使用 InnerProcess 与使用 ProcessCommon 在功能性上没有区别，只不过在处理过程的管理上有区别。Pipeline 情况是前提是将激光雷达障碍物检测的各个阶段都配置为 pipeline 中的一个个 stage 那么就直接调用 InnerProcess 进行处理。如果没有，则需要使用 ProcessCommon 进行处理。
+
+### lidar_obstacle_tracking
+此 lib 公有继承自 BaseLidarObstacleTracking 类，声明并实现了跟踪的初始化函数以及数据处理接口。
+
+在源文件中，Init 方法以及 Process 方法都有两套函数签名，分别用于不同的调用情况。同上。
+
+#### Init
+初始化函数有两种实现方法，第一种是输入 LidarObstacleTrackingInitOptions 的对象引用进行初始化操作，另一种是输入 PipelineConfig 的对象引用进行初始化操作。
+
+其初始化的内容包括：
+1. 创建并初始化多目标跟踪器；
+2. 创建并初始化分类器。
+
+#### Process
+数据处理函数有两种实现方法，一类是只输入 data_frame，调用 pipeline::InnerProcess 函数处理它，另一类是输入 frame 的同时输入选项信息，调用 ProcessCommon 函数处理它。
+
+其数据处理的内容包括：
+1. 障碍物目标的跟踪；
+2. 障碍物目标的分类。
 
 ## lib目录
 整个激光雷达的处理流程是什么？？？ 先分割，找地面，然后找障碍物？？？
