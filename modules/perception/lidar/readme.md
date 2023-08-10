@@ -53,9 +53,19 @@ TODO: 地图管理器的作用？
 2. 障碍物目标的分类。
 
 ## lib目录
-整个激光雷达的处理流程是什么？？？ 先分割，找地面，然后找障碍物？？？
+lib 目录存储了基于激光雷达感知的需要使用的核心运算库，每个库一个文件夹，作为一个单位编译。
 
 #### classifier
+classifier库中定义了五个库，分别为 util ， type_fusion_interface， ccrf_type_fusion， fuse_classifier， fused_classifier_test。
+
+util库为需要使用的帮助函数。
+
+type_fusion_interface 声明了 BaseOneShotTypeFusion 和 BaseSequenceTypeFusion 两个虚类，分别为基于单帧数据进行类别融合的类以及基于序列数据进行类别融合的类。类别融合的具体实现需要在 fused_classifier.cc 和 ccrf_type_fusion.cc 中定义。
+
+ccrf_type_fusion 是基于条件随机场的类型融合库，
+TODO: 继续研究
+
+
 
 #### ground_detector
 
