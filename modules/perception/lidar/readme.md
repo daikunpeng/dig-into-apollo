@@ -3,9 +3,35 @@
 ## lidar
 
 ## app
-app目录主要实现3个功能lidar_obstacle_detection，lidar_obstacle_segmentation，lidar_obstacle_tracking三个功能。  
+app目录中主要实现两个功能，分别为 lidar_obstacle_detection 和 lidar_obstacle_tracking，并被构建为lib。
+### lidar_obstacle_detection 
+此lib共有继承自 BaseLidarObstacleDetection 类，声明并实现了检测程序的初始化函数以及数据处理接口。
 
+在源文件中，Init 方法以及 Process 方法都有两套函数签名，分别用于不同的调用情况。
+TODO: 两套函数签名分别对应的调用情况说明
 
+### Init
+初始化函数有两种实现方法，第一种是输入 LidarObstacleDetectionInitOptions 的对象引用进行初始化操作，另一种是输入 pipeline_config 的对象引用进行初始化操作。
+
+其初始化的内容包括：
+1. 激光雷达障碍物检测器的初始化；
+2. 场景管理器的初始化（如果使能）；
+3. 地图管理器的初始化（如果使能）。
+
+TODO: 场景管理器的作用？
+TODO: 地图管理器的作用？
+
+### Process
+数据处理函数有三种实现方法，可以分为两类。一类是只输入点云数据，调用 pipeline::InnerProcess 函数处理它，另一类是输入点云数据的同时输入选项信息，调用 ProcessCommon 函数处理它。
+
+其数据处理的内容包括：
+1. 点云的前处理（如果需要）；
+2. 更新地图信息；
+3. 检测目标；
+4. 基于检测目标创建障碍物目标（如果使能）；
+5. 使用目标滤波器过滤障碍物目标（如果使能）。
+
+使用 InnerProcess 与使用 ProcessCommon 在功能性上没有区别，只不过在处理过程的管理上有区别。Pipeline 情况是前提是将激光雷达障碍物检测的各个阶段都配置为 pipeline 中的一个个 stage 那么就直接调用 InnerProcess 进行处理。如果没有，则需要使用 ProcessCommon 进行处理。
 
 ## lib目录
 整个激光雷达的处理流程是什么？？？ 先分割，找地面，然后找障碍物？？？
