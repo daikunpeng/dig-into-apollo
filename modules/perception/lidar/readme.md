@@ -66,7 +66,19 @@ ccrf_type_fusion 是基于条件随机场的类型融合库，继承自 BaseOneS
 根据目前获得的信息[issue 13726](https://github.com/ApolloAuto/apollo/issues/13726)，当分类器可以给目标多种分类及其概率的时候，会使用类 CCRFOneShotTypeFusion 对类别进行处理，当前在 apollo 代码中，此类仅配合 cnnseg 使用。
 
 
+fused_classifer 继承自 BaseClassifier，利用前面定义的类型融合类，实现具体的感知目标 object 类别的融合。其中在其 Classify 方法中，存在下面的代码：
 
+```c++
+    if (object->lidar_supplement.is_background) {//如果目标是背景目标，则认为它属于 UNKNOWN_UNMOVABLE 类，概率为1
+        object->type_probs.assign(static_cast<int>(ObjectType::MAX_OBJECT_TYPE),
+                                  0);
+        object->type = ObjectType::UNKNOWN_UNMOVABLE;
+        object->type_probs[static_cast<int>(ObjectType::UNKNOWN_UNMOVABLE)] =
+            1.0;
+        continue;
+      }
+```
+该代码的作用是判断检测阶段给目标赋予的类别是否为**背景目标**，如果是，则该目标的融合后类型为 UNKNOW_UNMOVABLE （未知不可移动目标） 概率为1。
 
 
 #### ground_detector
