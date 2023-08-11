@@ -62,7 +62,7 @@ util库为需要使用的帮助函数。
 
 type_fusion_interface 声明了 BaseOneShotTypeFusion 和 BaseSequenceTypeFusion 两个虚类，分别为基于单帧数据进行类别融合的类以及基于序列数据进行类别融合的类。类别融合的具体实现需要在 fused_classifier.cc 和 ccrf_type_fusion.cc 中定义。
 
-ccrf_type_fusion 是基于条件随机场的类型融合库，
+ccrf_type_fusion 是基于条件随机场的类型融合库，继承自 BaseOneShotTypeFusion 和 BaseSequenceTypeFusion 分别实现了 CCRFOneShotTypeFusion 和 CCRFSequenceTypeFusion 两个类。
 TODO: 继续研究
 
 
