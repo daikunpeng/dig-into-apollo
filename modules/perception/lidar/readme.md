@@ -82,6 +82,26 @@ fused_classifer 继承自 BaseClassifier，利用前面定义的类型融合类�
 
 
 #### ground_detector
+该插件的作用是利用一帧激光雷达点云，检测地面点，并将结果（非地面点的序号）存储在Lidarframe中。
+
+pointcloud_ground_detection 插件的功能依赖于两个lib：
+1. ground_service_detector
+2. spatio_temporal_ground_detector
+
+pointcloud_ground_detection 直接相关的文件有：
+1. dag 文件
+2. launch 文件
+3. proto 文件
+4. conf 文件
+其中1&2是对应 pointcloud_ground_detection 的插件地位的，因此需要配置，用于启动。
+3是proto文件，定义插件代码中需要使用的数据结构和配置信息的“模板”，而4是与proto相对应的具体数值。
+
+在文件夹 ground_detector 中，ground_service_detector 和 spatio_temporal_ground_detector 两个检测器。
+该文件夹中的 proto 文件中为分别被上述两个检测器使用的 proto 文件。
+
+在data文件中，存在这对应proto文件的两个具体数值信息。
+
+ground_service_
 
 
 #### map_manager
@@ -91,6 +111,8 @@ fused_classifer 继承自 BaseClassifier，利用前面定义的类型融合类�
 
 
 #### object_filter_bank
+object filter bank 是一组对于检测得到的目标列表进行滤波的滤波器。常用的滤波器有 ROIBoundaryFilter 以及 BackgroundFilter。
+
 
 
 #### pointcloud_preprocessor
